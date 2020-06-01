@@ -6,8 +6,8 @@
     name: epel-release
     state: present
 
-- name: Install python-jenkins
-  sudo: yes
+- name: Install python jenkins
+  become: yes
   yum:
     name: python-jenkins
     state: installed
@@ -17,5 +17,5 @@
     name: job1
     #state: present
     password: admin
-    url: http://100.26.9.196:8080
+    url: http://ec2-100-26-138-180.compute-1.amazonaws.com:8080
     user: admin
