@@ -28,6 +28,14 @@
     path: "{{ jenkins_admin_password_file }}"
   register: adminpasswordfile
 
+- name: Install Jenkins plugins using ssh key to authenticate.
+  command: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/
+    install-plugin {{ item }} -deploy creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ jenkins_plugins }}"
+  when: jenkins_ssh_key_path != ""
+  notify: restart jenkins
+
 #- name: Install Jenkins plugins using password.
 #  command: >
 #    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/
@@ -39,15 +47,15 @@
 #  when: jenkins_admin_password != ""
 #  notify: restart jenkins
 
-- name: Install Jenkins plugins
-  command: >
-    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/
-    install-plugin {{ item }}
-    -deploy
-    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
-  with_items: "{{ jenkins_plugins }}"
-  when: jenkins_admin_password != ""
-  notify: restart jenkins
+#- name: Install Jenkins plugins
+#  command: >
+#    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/
+#    install-plugin {{ item }}
+#    -deploy
+#    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+#  with_items: "{{ jenkins_plugins }}"
+#  when: jenkins_admin_password != ""
+#  notify: restart jenkins
 
 - name: Install Jenkins plugins using password-file.
   command: >

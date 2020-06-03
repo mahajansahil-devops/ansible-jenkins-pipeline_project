@@ -1,10 +1,12 @@
 ---
 - name: Ensure dependencies are installed.
-  package:
+  yum:
     name:
       - curl
-      - libselinux-python
-    state: installed
+      #- libselinux-python
+      - python3
+      - python3-libselinux
+    state: present
 
 - name: Ensure Jenkins repo is installed.
   get_url:
@@ -35,7 +37,7 @@
   notify: configure default users
 
 - name: Validate Jenkins is installed and register package name.
-  package:
+  yum:
     name: jenkins
     state: present
   when: not specific_version.stat.exists

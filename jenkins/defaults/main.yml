@@ -19,6 +19,7 @@ jenkins_java_options: "-Djenkins.install.runSetupWizard=false -Dpermissive-scrip
 jenkins_admin_username: admin
 jenkins_admin_password: helloAdmin!
 jenkins_admin_password_file: ""
+jenkins_ssh_key_path: "/home/sahil/Documents/nexus.pem"
 
 jenkins_init_changes:
   - option: "JENKINS_ARGS"
